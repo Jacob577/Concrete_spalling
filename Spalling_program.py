@@ -22,10 +22,10 @@ def makePrediction(parameters):
 	
 	if will_spall == 0:
 		print('Very low probability of spalling')
-		print('The amount of spalling will with 90"%" certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
+		print('The amount of spalling will with 90' + '%' + ' certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
 
 	if will_spall:
-		print('The amount of spalling will with 80"%" certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
+		print('The amount of spalling will with 80' + '%' + ' certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
 
 
 while running:
@@ -44,8 +44,11 @@ while running:
 	print('Enter compressive_strenth [MPa]\n')
 	compressive_strenth = input('Compressive strenth: ')
 
-	parameters = [load, stress, moisture, compressive_strenth]
-	makePrediction(parameters)
+	try:
+		parameters = [load, stress, moisture, compressive_strenth]
+		makePrediction(parameters)
+	except:
+		print('Oops!! Something went wrong, are you sure you only entered numbers and not any ","?')
 
 	print('\n')
 	print('Would you like to make another prediction?')
