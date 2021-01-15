@@ -18,14 +18,14 @@ def makePrediction(parameters):
 	if float(probability_spall) > 0.1:
 		will_spall = 1
 
-	print('The brobability of spalling is {}'.format(str(probability_spall*100) + '%'))
+	print('The probability of spalling is {}'.format(str(probability_spall*100)[0:4] + '%'))
 	
 	if will_spall == 0:
 		print('Very low probability of spalling')
-		print('The amount of spalling will with 90' + '%' + ' certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
+		print('The amount of spalling will with 90' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters])))[0:4]))
 
 	if will_spall:
-		print('The amount of spalling will with 80' + '%' + ' certainty not surpass {} mm.'.format(str(regression_model.predict([parameters]))))
+		print('The amount of spalling will with 80' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters])))[0:4]))
 
 
 while running:
@@ -37,15 +37,15 @@ while running:
 	print('Do not include units.')
 	print('Please enter applied Load [kN]\n')
 	load = input('Load: ')
-	print('Please enter stress [MPa]\n')
-	stress = input('Stress: ')
+	# print('Please enter stress [MPa]\n')
+	# stress = input('Stress: ')
 	print('Enter moisture content in mass percentage [%]\n')
 	moisture = input('Moisture content: ')
-	print('Enter compressive_strenth [MPa]\n')
+	print('Enter compressive strenth [MPa]\n')
 	compressive_strenth = input('Compressive strenth: ')
 
 	try:
-		parameters = [load, stress, moisture, compressive_strenth]
+		parameters = [load, moisture, compressive_strenth]
 		makePrediction(parameters)
 	except:
 		print('Oops!! Something went wrong, are you sure you only entered numbers and not any ","?')
