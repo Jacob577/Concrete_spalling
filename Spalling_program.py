@@ -1,5 +1,6 @@
 import pickle
 from os import system, name 
+from plot_area import PlotSpalling
 running = True
 
 def import_models():
@@ -10,7 +11,7 @@ def import_models():
 		upper_model = pickle.load(file)
 	return classification_model, upper_model
 
-def makePrediction(parameters):
+def makePrediction(parameters,length):
 	will_spall = 0
 	classification_model, regression_model = import_models()
 	probability_spall = classification_model.predict_proba([parameters])[0][1]
@@ -22,10 +23,10 @@ def makePrediction(parameters):
 	
 	if will_spall == 0:
 		print('Very low probability of spalling')
-		print('The amount of spalling will with 90' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters])))[0:4]))
+		print('The amount of spalling will with 90' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters]))*length)[0:4]))
 
 	if will_spall:
-		print('The amount of spalling will with 80' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters])))[0:4]))
+		print('The amount of spalling will with 80' + '%' + ' certainty not surpass {} mm.'.format(str(float(regression_model.predict([parameters]))*length)[0:4]))
 
 
 while running:
@@ -35,10 +36,10 @@ while running:
 	print('\n')
 	print('To get an estimation if and how much the concrete in question will spall:\nEnter requestet parameters when asked and press enter.')
 	print('Do not include units.')
+	print('Please enter the lengeth of one of the sides on the quadratic examined slab [m]')
+	length = float(input('Length: '))
 	print('Please enter applied Load [kN]\n')
 	load = input('Load: ')
-	# print('Please enter stress [MPa]\n')
-	# stress = input('Stress: ')
 	print('Enter moisture content in mass percentage [%]\n')
 	moisture = input('Moisture content: ')
 	print('Enter compressive strenth [MPa]\n')
@@ -46,10 +47,16 @@ while running:
 
 	try:
 		parameters = [load, moisture, compressive_strenth]
-		makePrediction(parameters)
+		makePrediction(parameters,length)
+		with open('classification_model.pickle', "rb") as file:
+			classification_model = pickle.load(file)
+		PlotSpalling(length,float(classification_model.predict([parameters])))
+
+
 	except:
 		print('Oops!! Something went wrong, are you sure you only entered numbers and not any ","?')
 
+	
 	print('\n')
 	print('Would you like to make another prediction?')
 	print('Press y for another prediction.')
