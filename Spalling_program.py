@@ -48,14 +48,14 @@ while running:
 	try:
 		parameters = [load, moisture, compressive_strenth]
 		makePrediction(parameters,length)
-		with open('classification_model.pickle', "rb") as file:
-			classification_model = pickle.load(file)
-		PlotSpalling(length,float(classification_model.predict([parameters])))
+		with open('regression_model.pickle', "rb") as file:
+			upper_model = pickle.load(file)
+		PlotSpalling(length,float(upper_model.predict([parameters]))/1000).plotArea()
 
 
 	except:
 		print('Oops!! Something went wrong, are you sure you only entered numbers and not any ","?')
-
+	# print(float(upper_model.predict([parameters]))*length)
 	
 	print('\n')
 	print('Would you like to make another prediction?')
