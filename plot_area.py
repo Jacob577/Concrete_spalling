@@ -2,10 +2,6 @@ from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
-# import matplotlib_terminal
-
-# length = 2
-# spalling_depth = 0.1
 
 class PlotSpalling:
 
@@ -59,6 +55,5 @@ class PlotSpalling:
 		plt.close()
 
 
-# PlotSpalling(length,spalling_depth).plotArea()
-		
+
 
